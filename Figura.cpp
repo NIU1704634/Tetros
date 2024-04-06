@@ -1,1 +1,1 @@
-//Hola
+#include "Figura.h"
