@@ -1,9 +1,10 @@
 #include "Figura.h"
+#include <iostream>
+using namespace std;
 
-void Figura::girHorari() 
+void Figura::gir(DireccioGir dir) 
 {
-	int temp[MAXTAMANY][MAXTAMANY];
-
+	ColorFigura temp[MAXTAMANY][MAXTAMANY];
 	//Transposició
 	for (int i = 0; i < m_tamany; i++)
 	{
@@ -12,78 +13,94 @@ void Figura::girHorari()
 			temp[i][j] = m_forma[j][i];
 		}
 	}
-	//Inversió de columnes
-	if (m_tamany % 2 == 1) {
-		for (int f = 0; f < m_tamany; f++)
-		{
-			for (int c = 0; c < m_tamany; c++)
+	if (dir == GIR_HORARI) 
+	{
+		//Inversió de columnes
+		if (m_tamany % 2 == 1) {
+			for (int f = 0; f < m_tamany; f++)
 			{
-				if ((m_tamany - 1) / 2 == c)
+				for (int c = 0; c < m_tamany; c++)
 				{
-					m_forma[f][c] = temp[f][c];
+					if ((m_tamany - 1) / 2 == c) m_forma[f][c] = temp[f][c];
+					else m_forma[f][c] = temp[f][m_tamany - (c + 1)];
+
 				}
-				else
+			}
+		}
+		else
+		{
+			for (int f = 0; f < m_tamany; f++)
+			{
+				for (int c = 0; c < m_tamany; c++)
 				{
 					m_forma[f][c] = temp[f][m_tamany - (c + 1)];
 				}
 			}
 		}
+		m_rot++;
 	}
-	else
+	else 
 	{
-		for (int f = 0; f < m_tamany; f++)
-		{
-			for (int c = 0; c < m_tamany; c++)
+		//Inversió de files
+		if (m_tamany % 2 == 1) {
+			for (int f = 0; f < m_tamany; f++)
 			{
-				m_forma[f][c] = temp[f][m_tamany - (c + 1)];
+				for (int c = 0; c < m_tamany; c++)
+				{
+					if ((m_tamany - 1) / 2 == f) m_forma[f][c] = temp[f][c];
+					else m_forma[f][c] = temp[m_tamany - (f + 1)][c];
+				}
 			}
 		}
-	}
-}
-
-void Figura::girAntiHorari()
-{
-	int temp[MAXTAMANY][MAXTAMANY];
-
-	//Transposició
-	for (int i = 0; i < m_tamany; i++)
-	{
-		for (int j = 0; j < m_tamany; j++)
+		else
 		{
-			temp[i][j] = m_forma[j][i];
-		}
-	}
-	//Inversió de files
-	if (m_tamany % 2 == 1) {
-		for (int f = 0; f < m_tamany; f++)
-		{
-			for (int c = 0; c < m_tamany; c++)
+			for (int f = 0; f < m_tamany; f++)
 			{
-				if ((m_tamany - 1) / 2 == f)
-				{
-					m_forma[f][c] = temp[f][c];
-				}
-				else
+				for (int c = 0; c < m_tamany; c++)
 				{
 					m_forma[f][c] = temp[m_tamany - (f + 1)][c];
 				}
 			}
 		}
-	}
-	else
-	{
-		for (int f = 0; f < m_tamany; f++)
-		{
-			for (int c = 0; c < m_tamany; c++)
-			{
-				m_forma[f][c] = temp[m_tamany - (f + 1)][c];
-			}
-		}
+		m_rot--;
 	}
 }
 
+//Retorna el color assignat al tipus
+ColorFigura assignaColor(TipusFigura tipus)
+{
+	ColorFigura color;
+	switch (tipus)
+	{
+	case FIGURA_O:
+		color = COLOR_GROC;
+		break;
+	case FIGURA_I:
+		color = COLOR_BLAUCEL;
+		break;
+	case FIGURA_T:
+		color = COLOR_MAGENTA;
+		break;
+	case FIGURA_L:
+		color = COLOR_TARONJA;
+		break;
+	case FIGURA_J:
+		color = COLOR_BLAUFOSC;
+		break;
+	case FIGURA_Z:
+		color = COLOR_VERMELL;
+		break;
+	case FIGURA_S:
+		color = COLOR_VERD;
+		break;
+	default:
+		color = NO_COLOR;
+		break;
+	}
+	return color;
+}
 //Genera la forma, el tamany, el color i la rotació de la figura
-int ajustaForma(int tipus, int forma[MAXTAMANY][MAXTAMANY])
+int ajustaForma(TipusFigura tipus, ColorFigura forma[MAXTAMANY][MAXTAMANY])
 {
 	//Inicialitzem tot a 0
 	int tamany = 0;
@@ -91,60 +108,61 @@ int ajustaForma(int tipus, int forma[MAXTAMANY][MAXTAMANY])
 	{
 		for (int j = 0; j < MAXTAMANY; j++)
 		{
-			forma[i][j] = 0;
+			forma[i][j] = COLOR_NEGRE;
 		}
 	}
+	ColorFigura color = assignaColor(tipus);
 	//Modifiquem els punts per fer la forma en rotació inicial
 	switch (tipus)
 	{
 	case FIGURA_O:
 		tamany = 2;
-		forma[0][0] = tipus;
-		forma[0][1] = tipus;
-		forma[1][0] = tipus;
-		forma[1][1] = tipus;
+		forma[0][0] = color;
+		forma[0][1] = color;
+		forma[1][0] = color;
+		forma[1][1] = color;
 		break;
 	case FIGURA_I:
 		tamany = 4;
-		forma[1][0] = tipus;
-		forma[1][1] = tipus;
-		forma[1][2] = tipus;
-		forma[1][3] = tipus;
+		forma[1][0] = color;
+		forma[1][1] = color;
+		forma[1][2] = color;
+		forma[1][3] = color;
 		break;
 	case FIGURA_T:
 		tamany = 3;
-		forma[0][1] = tipus;
-		forma[1][0] = tipus;
-		forma[1][1] = tipus;
-		forma[1][2] = tipus;
+		forma[0][1] = color;
+		forma[1][0] = color;
+		forma[1][1] = color;
+		forma[1][2] = color;
 		break;
 	case FIGURA_L:
 		tamany = 3;
-		forma[0][2] = tipus;
-		forma[1][0] = tipus;
-		forma[1][2] = tipus;
-		forma[1][1] = tipus;
+		forma[0][2] = color;
+		forma[1][0] = color;
+		forma[1][2] = color;
+		forma[1][1] = color;
 		break;
 	case FIGURA_J:
 		tamany = 3;
-		forma[0][0] = tipus;
-		forma[1][0] = tipus;
-		forma[1][2] = tipus;
-		forma[1][1] = tipus;
+		forma[0][0] = color;
+		forma[1][0] = color;
+		forma[1][2] = color;
+		forma[1][1] = color;
 		break;
 	case FIGURA_Z:
 		tamany = 3;
-		forma[0][0] = tipus;
-		forma[0][1] = tipus;
-		forma[1][1] = tipus;
-		forma[1][2] = tipus;
+		forma[0][0] = color;
+		forma[0][1] = color;
+		forma[1][1] = color;
+		forma[1][2] = color;
 		break;
 	case FIGURA_S:
 		tamany = 3;
-		forma[0][1] = tipus;
-		forma[0][2] = tipus;
-		forma[1][0] = tipus;
-		forma[1][1] = tipus;
+		forma[0][1] = color;
+		forma[0][2] = color;
+		forma[1][0] = color;
+		forma[1][1] = color;
 		break;
 	default:
 		break;
@@ -154,8 +172,8 @@ int ajustaForma(int tipus, int forma[MAXTAMANY][MAXTAMANY])
 
 //Constructor buit (genera una forma buida)
 Figura::Figura() {
-	m_tipus = 0;
-	m_color = 8;
+	m_tipus = NO_FIGURA;
+	m_color = NO_COLOR;
 	m_posX = N_COLUMNES / 2;
 	m_posY = 0;
 	m_tamany = 0;
@@ -164,15 +182,15 @@ Figura::Figura() {
 	{
 		for (int j = 0; j < MAXTAMANY; j++)
 		{
-			m_forma[i][j] = 0;
+			m_forma[i][j] = NO_COLOR;
 		}
 	}
 }
 
 //Constructor amb paràmetres
-Figura::Figura(int tipus, int posX, int rot) {
+Figura::Figura(TipusFigura tipus, int posX, int rot) {
 	m_tipus = tipus;
-	m_color = tipus;
+	m_color = assignaColor(tipus);
 	m_posX = posX;
 	m_posY = 0;
 	m_rot = rot;
@@ -181,14 +199,14 @@ Figura::Figura(int tipus, int posX, int rot) {
 	switch (rot)
 	{
 	case 1:
-		girHorari();
+		gir(GIR_HORARI);
 		break;
 	case 2:
-		girHorari();
-		girHorari();
+		gir(GIR_HORARI);
+		gir(GIR_HORARI);
 		break;
 	case 3:
-		girAntiHorari();
+		gir(GIR_ANTI_HORARI);
 		break;
 	default:
 		break;
@@ -196,7 +214,7 @@ Figura::Figura(int tipus, int posX, int rot) {
 }
 
 //Getter de la array forma. Transforma la array passada en el paràmetre en la matriu forma de la figura.
-void Figura::getForma(int forma[MAXTAMANY][MAXTAMANY]) {
+void Figura::getForma(ColorFigura forma[MAXTAMANY][MAXTAMANY]) {
 	for (int i = 0; i < MAXTAMANY; i++)
 	{
 		for (int j = 0; j < MAXTAMANY; j++)
@@ -210,8 +228,8 @@ void Figura::getForma(int forma[MAXTAMANY][MAXTAMANY]) {
 /*
 int main() 
 {
-	Figura f(3, 3, 4);
-	int forma[MAXTAMANY][MAXTAMANY];
+	Figura f(FIGURA_L, 3, 3);
+	ColorFigura forma[MAXTAMANY][MAXTAMANY];
 	f.getForma(forma);
 	for (int i = 0; i < MAXTAMANY; i++)
 	{
