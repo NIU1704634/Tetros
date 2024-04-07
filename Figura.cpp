@@ -2,6 +2,7 @@
 #include <iostream>
 using namespace std;
 
+//Gira una peça cap a la direcció establerta al paràmetre
 void Figura::gir(DireccioGir dir) 
 {
 	ColorFigura temp[MAXTAMANY][MAXTAMANY];
@@ -99,6 +100,7 @@ ColorFigura assignaColor(TipusFigura tipus)
 	}
 	return color;
 }
+
 //Genera la forma, el tamany, el color i la rotació de la figura
 int ajustaForma(TipusFigura tipus, ColorFigura forma[MAXTAMANY][MAXTAMANY])
 {
@@ -223,21 +225,3 @@ void Figura::getForma(ColorFigura forma[MAXTAMANY][MAXTAMANY]) {
 		}
 	}
 }
-
-//Debug del generador de figures
-/*
-int main() 
-{
-	Figura f(FIGURA_L, 3, 3);
-	ColorFigura forma[MAXTAMANY][MAXTAMANY];
-	f.getForma(forma);
-	for (int i = 0; i < MAXTAMANY; i++)
-	{
-		for (int j = 0; j < MAXTAMANY; j++)
-		{
-			cout << forma[i][j];
-		}
-		cout << endl;
-	}
-}
-*/
