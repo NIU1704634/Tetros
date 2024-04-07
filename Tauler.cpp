@@ -19,7 +19,7 @@ void Tauler::EliminarFila(int fila)
 	}
 }
 
-bool Tauler::ComprobarEspai(Figura figura)
+bool Tauler::ComprobarEspai(Figura figura) const
 {
 	ColorFigura forma[MAXTAMANY][MAXTAMANY];
 	figura.getForma(forma);
@@ -49,7 +49,7 @@ bool Tauler::ComprobarEspai(Figura figura)
 	return true;
 }
 
-bool Tauler::ComprobarGir(Figura figura, DireccioGir direccio)
+bool Tauler::ComprobarGir(Figura figura, DireccioGir direccio) const
 {
 	figura.gir(direccio);
 
@@ -74,7 +74,26 @@ bool Tauler::ComprobarGir(Figura figura, DireccioGir direccio)
 
 }
 
-bool Tauler::ComprobarBaixada(Figura figura)
+void Tauler::AfegirFigura(Figura figura)
+{
+	ColorFigura forma[MAXTAMANY][MAXTAMANY];
+	figura.getForma(forma);
+
+	for (int fx = 0; fx < figura.getTamany(); fx++)
+	{
+		for (int fy = 0; fy < figura.getTamany(); fy++)
+		{
+			int taulerX = figura.getPosX() + fx;
+			int taulerY = figura.getPosY() - fy;
+			if (forma[fx][fy] != COLOR_NEGRE)
+			{
+				m_tauler[taulerX][taulerY] = forma[fx][fy];
+			}
+		}
+	}
+}
+
+bool Tauler::ComprobarBaixada(Figura figura) const
 {
 	figura.baixa();
 
@@ -90,7 +109,7 @@ bool Tauler::ComprobarBaixada(Figura figura)
 	}
 }
 
-bool Tauler::ComprobarMoviment(Figura figura, int dirX)
+bool Tauler::ComprobarMoviment(Figura figura, int dirX) const
 {
 	figura.mou(dirX);
 

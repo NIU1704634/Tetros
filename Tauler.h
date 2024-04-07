@@ -11,12 +11,13 @@ public:
 	Tauler(ColorFigura tauler[MAX_FILA][MAX_COL]);
 
 	void EliminarFila(int fila);
-	bool ComprobarGir(Figura figura, DireccioGir direccio); //const
-	bool ComprobarBaixada(Figura figura); //const
-	bool ComprobarMoviment(Figura figura, int dirX); //const
+	bool ComprobarGir(Figura figura, DireccioGir direccio) const; //const
+	bool ComprobarBaixada(Figura figura) const; //const
+	bool ComprobarMoviment(Figura figura, int dirX) const; //const
+	void AfegirFigura(Figura figura);
 
 private:
-	bool ComprobarEspai(Figura figura); //const
+	bool ComprobarEspai(Figura figura) const; //const
 	ColorFigura m_tauler[MAX_FILA][MAX_COL];
 	Figura m_figuraActual;
 };
