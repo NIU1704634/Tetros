@@ -15,7 +15,7 @@ public:
 	void getTaulerActual(ColorFigura tauler[MAX_FILA][MAX_COL]);
 
 	//Funcions
-	void EliminarFila(int fila);
+	int EliminarFila();
 	bool ComprobarGir(Figura figura, DireccioGir direccio) const; //const
 	bool ComprobarBaixada(Figura figura) const; //const
 	bool ComprobarMoviment(Figura figura, int dirX) const; //const

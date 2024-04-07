@@ -3,20 +3,37 @@
 
 using namespace std;
 
-void Tauler::EliminarFila(int fila)
+int Tauler::EliminarFila()
 {
-	for (int columnaActual = 0; columnaActual < MAX_COL; columnaActual++)
+	int filesEliminades = 0;
+
+	for (int f = N_FILES - 1; f > 0; f--)
 	{
-		for (int filaActual = fila; filaActual > 0; filaActual--)
+		bool filaPlena = true;
+		int c = 0;
+		while (filaPlena && c < N_COLUMNES)
 		{
-			m_tauler[filaActual][columnaActual] = m_tauler[filaActual - 1][columnaActual];
+			if (m_tauler[f][c] == COLOR_NEGRE)
+			{
+				filaPlena = false;
+			}
+			c++;
+		}
+		if (filaPlena)
+		{
+			for (int c = 0; c < N_COLUMNES; c++)
+			{
+				for (int f2 = f; f2 > 0; f2--)
+				{
+					m_tauler[f2][c] = m_tauler[f2 - 1][c];
+				}
+
+			}
+			filesEliminades++;
+			f++;
 		}
 	}
-
-	for (int columnaActual = 0; columnaActual < MAX_COL; columnaActual++)
-	{
-		m_tauler[0][columnaActual] = COLOR_NEGRE;
-	}
+	return filesEliminades;
 }
 
 bool Tauler::ComprobarEspai(Figura figura) const
@@ -24,13 +41,16 @@ bool Tauler::ComprobarEspai(Figura figura) const
 	ColorFigura forma[MAXTAMANY][MAXTAMANY];
 	figura.getForma(forma);
 
+	int figuraX = figura.getPosX();
+	int figuraY = figura.getPosY();
+
 	//bucle de tota la fitxa
 	for (int fx = 0; fx < figura.getTamany(); fx++)
 	{
 		for (int fy = 0; fy < figura.getTamany(); fy++)
 		{
-			int taulerX = figura.getPosX() + fx;
-			int taulerY = figura.getPosY() - fy;
+			int taulerX = figuraX + fx;
+			int taulerY = figuraY - fy;
 
 			if (taulerX < 0 || taulerX > N_COLUMNES || taulerY < 0 || taulerY > N_FILES)
 			{
@@ -79,12 +99,15 @@ void Tauler::AfegirFigura(Figura figura)
 	ColorFigura forma[MAXTAMANY][MAXTAMANY];
 	figura.getForma(forma);
 
+	int figuraX = figura.getPosX();
+	int figuraY = figura.getPosY();
+
 	for (int fx = 0; fx < figura.getTamany(); fx++)
 	{
 		for (int fy = 0; fy < figura.getTamany(); fy++)
 		{
-			int taulerX = figura.getPosX() + fx;
-			int taulerY = figura.getPosY() - fy;
+			int taulerX = figuraX + fx;
+			int taulerY = figuraY - fy;
 			if (forma[fx][fy] != COLOR_NEGRE)
 			{
 				m_tauler[taulerX][taulerY] = forma[fx][fy];
