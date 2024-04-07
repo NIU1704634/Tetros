@@ -1,4 +1,3 @@
-#pragma once
 #include "Tauler.h"
 #include <iostream>
 #include <fstream>
@@ -10,8 +9,8 @@ class Joc
 {
 public:
 	//Getters
-	Figura getFigura() { return m_figura; };
-	Tauler getTauler() { return m_tauler; };
+	Figura getFigura() const { return m_figura; };
+	Tauler getTauler() const { return m_tauler; };
 	//Setters
 	void setFigura(Figura figura) { m_figura = figura; };
 	void setTauler(Tauler tauler) { m_tauler = tauler; };
@@ -28,12 +27,13 @@ private:
 	Figura m_figura;
 };
 
-istream& operator>>(istream& input, Joc joc)
+istream& operator>>(istream& input, Joc& joc)
 {
 	//Lectura i creació de la figura
 	int tipusFig,figPosX, figPosY, figRot;
 	input >> tipusFig >> figPosY >> figPosX >> figRot;
 	Figura fig(static_cast<TipusFigura>(tipusFig), figPosX, figRot);
+
 	//Lectura i creació del tauler
 	ColorFigura punts[MAX_FILA][MAX_COL];
 	int tempval;
@@ -46,13 +46,17 @@ istream& operator>>(istream& input, Joc joc)
 		}
 	}
 	Tauler tauler(punts);
+
 	//Assignació de les variables de joc
 	joc.setFigura(fig);
 	joc.setTauler(tauler);
+
+	return input;
 }
 
-ostream& operator<<(ostream& output, Joc joc)
+ostream& operator<<(ostream& output, const Joc& joc)
 {
+	//Aconseguim variables
 	Figura figura = joc.getFigura();
 	ColorFigura colorFigura = figura.getColor(), tauler[MAX_FILA][MAX_COL], formaFigura[MAXTAMANY][MAXTAMANY];
 	joc.getTauler().getTaulerActual(tauler);
@@ -79,4 +83,6 @@ ostream& operator<<(ostream& output, Joc joc)
 		}
 		output << endl;
 	}
+
+	return output;
 }
