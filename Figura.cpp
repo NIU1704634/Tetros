@@ -176,7 +176,7 @@ int ajustaForma(TipusFigura tipus, ColorFigura forma[MAXTAMANY][MAXTAMANY])
 Figura::Figura() {
 	m_tipus = NO_FIGURA;
 	m_color = NO_COLOR;
-	m_posX = N_COLUMNES / 2;
+	m_posX = 0;
 	m_posY = 0;
 	m_tamany = 0;
 	m_rot = 0;
@@ -190,11 +190,11 @@ Figura::Figura() {
 }
 
 //Constructor amb paràmetres
-Figura::Figura(TipusFigura tipus, int posX, int rot) {
+Figura::Figura(TipusFigura tipus, int posX, int posY, int rot) {
 	m_tipus = tipus;
 	m_color = assignaColor(tipus);
 	m_posX = posX;
-	m_posY = 0;
+	m_posY = posY;
 	m_rot = rot;
 	m_tamany = ajustaForma(tipus, m_forma);
 	//Rota la peça per posar'la com ha d'anar

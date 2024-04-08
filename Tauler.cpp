@@ -7,11 +7,11 @@ int Tauler::EliminarFila()
 {
 	int filesEliminades = 0;
 
-	for (int f = N_FILES - 1; f > 0; f--)
+	for (int f = MAX_FILA - 1; f > 0; f--)
 	{
 		bool filaPlena = true;
 		int c = 0;
-		while (filaPlena && c < N_COLUMNES)
+		while (filaPlena && c < MAX_COL)
 		{
 			if (m_tauler[f][c] == COLOR_NEGRE)
 			{
@@ -21,7 +21,7 @@ int Tauler::EliminarFila()
 		}
 		if (filaPlena)
 		{
-			for (int c = 0; c < N_COLUMNES; c++)
+			for (int c = 0; c < MAX_COL; c++)
 			{
 				for (int f2 = f; f2 > 0; f2--)
 				{
@@ -52,7 +52,7 @@ bool Tauler::ComprobarEspai(Figura figura) const
 			int taulerX = figuraX + fx;
 			int taulerY = figuraY - fy;
 
-			if (taulerX < 0 || taulerX > N_COLUMNES || taulerY < 0 || taulerY > N_FILES)
+			if (taulerX < 0 || taulerX > MAX_COL || taulerY < 0 || taulerY > MAX_FILA)
 			{
 				return false;
 			}
@@ -81,7 +81,7 @@ bool Tauler::ComprobarGir(Figura figura, DireccioGir direccio) const
 		{
 			figura.gir(GIR_ANTI_HORARI);
 		}
-		else 
+		else
 		{
 			figura.gir(GIR_HORARI);
 		}
@@ -149,6 +149,17 @@ bool Tauler::ComprobarMoviment(Figura figura, int dirX) const
 	}
 }
 
+void Tauler::getTaulerActual(ColorFigura tauler[MAX_FILA][MAX_COL])
+{
+	//Dibuixa tauler
+	for (int i = 0; i < MAX_FILA; i++)
+	{
+		for (int j = 0; j < MAX_COL; j++)
+		{
+			tauler[i][j] = m_tauler[i][j];
+		}
+	}
+}
 
 Tauler::Tauler()
 {

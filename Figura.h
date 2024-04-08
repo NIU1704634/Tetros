@@ -1,5 +1,3 @@
-const int N_FILES = 8;
-const int N_COLUMNES = 8;
 const int MAXTAMANY = 4;
 
 typedef enum
@@ -33,19 +31,21 @@ typedef enum
 	GIR_ANTI_HORARI
 } DireccioGir;
 
+
+
 class Figura
 {
 public:
 	//Constructors
 	Figura();
-	Figura(TipusFigura tipus, int posX, int rot);
+	Figura(TipusFigura tipus, int posX, int posY, int rot);
 
 	//Getters
 	TipusFigura getTipus() { return m_tipus; };
 	ColorFigura getColor() { return m_color; };
 	int getPosX() { return m_posX; };
 	int getPosY() { return m_posY; };
-	int getTamany() { return m_posY; };
+	int getTamany() { return m_tamany; };
 	int getRot() { return m_rot; };
 	void getForma(ColorFigura forma[MAXTAMANY][MAXTAMANY]);
 
