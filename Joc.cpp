@@ -10,6 +10,8 @@ ifstream& operator>>(ifstream& input, Tauler& tauler)
 	int posY = 0;
 	int rotacio = 0;
 	input >> tipus >> posY >> posX >> rotacio;
+	posY--;
+	posX--;
 	TipusFigura fTipus;
 	switch (tipus)
 	{
@@ -90,6 +92,7 @@ ifstream& operator>>(ifstream& input, Tauler& tauler)
 
 	Tauler nouTauler(taulerTemporal);	
 	tauler = nouTauler;
+	tauler.setColocada(false);
 	tauler.setFigura(novaFigura);
 
 
@@ -101,7 +104,10 @@ ofstream& operator<<(ofstream& output, Tauler taula)
 {
 	//escribir en archivo
 	Tauler taulerTemporal = taula;
-	taulerTemporal.AfegirFigura(taula.getFigura());
+	if (!taulerTemporal.getColocada())
+	{
+		taulerTemporal.AfegirFigura();
+	}
 
 	ColorFigura nouTauler[MAX_FILA][MAX_COL];
 	taulerTemporal.getTaulerActual(nouTauler);
@@ -134,23 +140,27 @@ void Joc::inicialitza(const string& nomFitxer)
 
 bool Joc::giraFigura(DireccioGir direccio)
 {
-    return m_tauler.ComprobarGir(m_figura, direccio);
+    return m_tauler.ComprobarGir(direccio);
 }
 bool Joc::mouFigura(int dirX)
 {
-    return m_tauler.ComprobarMoviment(m_figura, dirX);
+
+
+    return m_tauler.ComprobarMoviment(dirX);
 }
 int Joc::baixaFigura()
 {
-	Figura novaFigura;
-    if (m_tauler.ComprobarBaixada(novaFigura))
+    if (m_tauler.ComprobarBaixada())
     {
-        return 0;
+		return 0;
     }
     else 
     {
-        m_tauler.AfegirFigura(m_figura);
+		int t = m_tauler.getFigura().getTipus();
+
+        m_tauler.AfegirFigura();
         int files = m_tauler.EliminarFila();
+		
         return files;
     }
 }
@@ -158,7 +168,6 @@ void Joc::escriuTauler(const string& nomFitxer)
 {
     ofstream outFitxer;
     outFitxer.open(nomFitxer);
-	m_tauler.setFigura(m_figura);
     if (outFitxer.is_open())
     {
         outFitxer << m_tauler;

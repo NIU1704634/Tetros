@@ -6,6 +6,7 @@ using namespace std;
 int Tauler::EliminarFila()
 {
 	int filesEliminades = 0;
+	int t = m_figuraActual.getTipus();
 
 	for (int f = MAX_FILA - 1; f > 0; f--)
 	{
@@ -21,45 +22,49 @@ int Tauler::EliminarFila()
 		}
 		if (filaPlena)
 		{
-			for (int c = 0; c < MAX_COL; c++)
+
+			for (int c2 = 0; c2 < MAX_COL; c2++)
 			{
 				for (int f2 = f; f2 > 0; f2--)
 				{
-					m_tauler[f2][c] = m_tauler[f2 - 1][c];
+					m_tauler[f2][c2] = m_tauler[f2 - 1][c2];
 				}
-
+				m_tauler[0][c2] = COLOR_NEGRE;
 			}
 			filesEliminades++;
 			f++;
+			m_fitxaColocada = true;
 		}
 	}
 	return filesEliminades;
 }
 
-bool Tauler::ComprobarEspai(Figura figura)
+bool Tauler::ComprobarEspai()
 {
 	ColorFigura forma[MAXTAMANY][MAXTAMANY];
-	figura.getForma(forma);
+	m_figuraActual.getForma(forma);
 
-	int figuraX = figura.getPosX();
-	int figuraY = figura.getPosY();
+	int figuraC = m_figuraActual.getPosX();
+	int figuraF = m_figuraActual.getPosY();
 
 	//bucle de tota la fitxa
-	for (int fx = 0; fx < figura.getTamany(); fx++)
+	for (int fx = 0; fx < m_figuraActual.getTamany(); fx++)
 	{
-		for (int fy = 0; fy < figura.getTamany(); fy++)
+		for (int fy = 0; fy < m_figuraActual.getTamany(); fy++)
 		{
-			int taulerX = figuraX + fx;
-			int taulerY = figuraY - fy;
+			int taulerC = figuraC + fy;
+			int taulerF = figuraF + fx;
 
-			if (taulerX < 0 || taulerX > MAX_COL || taulerY < 0 || taulerY > MAX_FILA)
-			{
-				return false;
-			}
+
 
 			if (forma[fx][fy] != COLOR_NEGRE)
 			{
-				if (m_tauler[taulerX][taulerY] != COLOR_NEGRE)
+				if (taulerC < 0 || taulerC >= MAX_COL || taulerF < 0 || taulerF >= MAX_FILA)
+				{
+					return false;
+				}
+
+				if (m_tauler[taulerF][taulerC] != COLOR_NEGRE)
 				{
 					return false;
 				}
@@ -69,21 +74,21 @@ bool Tauler::ComprobarEspai(Figura figura)
 	return true;
 }
 
-bool Tauler::ComprobarGir(Figura& figura, DireccioGir direccio)
+bool Tauler::ComprobarGir(DireccioGir direccio)
 {
-	figura.gir(direccio);
+	m_figuraActual.gir(direccio);
 
-	bool movimentPosible = ComprobarEspai(figura);
+	bool movimentPosible = ComprobarEspai();
 
-	if (movimentPosible)
+	if (!movimentPosible)
 	{
 		if (direccio == GIR_HORARI)
 		{
-			figura.gir(GIR_ANTI_HORARI);
+			m_figuraActual.gir(GIR_ANTI_HORARI);
 		}
 		else
 		{
-			figura.gir(GIR_HORARI);
+			m_figuraActual.gir(GIR_HORARI);
 		}
 		return false;
 	}
@@ -94,36 +99,39 @@ bool Tauler::ComprobarGir(Figura& figura, DireccioGir direccio)
 
 }
 
-void Tauler::AfegirFigura(Figura figura)
+void Tauler::AfegirFigura()
 {
 	ColorFigura forma[MAXTAMANY][MAXTAMANY];
-	figura.getForma(forma);
+	m_figuraActual.getForma(forma);
 
-	int figuraX = figura.getPosX();
-	int figuraY = figura.getPosY();
+	int figuraC = m_figuraActual.getPosX();
+	int figuraF = m_figuraActual.getPosY();
 
-	for (int fx = 0; fx < figura.getTamany(); fx++)
+	for (int ff = 0; ff < m_figuraActual.getTamany(); ff++)
 	{
-		for (int fy = 0; fy < figura.getTamany(); fy++)
+		for (int fc = 0; fc < m_figuraActual.getTamany(); fc++)
 		{
-			int taulerX = figuraX + fx;
-			int taulerY = figuraY - fy;
-			if (forma[fx][fy] != COLOR_NEGRE)
+			int taulerC = figuraC + ff;
+			int taulerF = figuraF + fc;
+			if (forma[fc][ff] != COLOR_NEGRE)
 			{
-				m_tauler[taulerX][taulerY] = forma[fx][fy];
+				m_tauler[taulerF][taulerC] = forma[fc][ff];
 			}
 		}
 	}
 }
 
-bool Tauler::ComprobarBaixada(Figura &figura)
+bool Tauler::ComprobarBaixada()
 {
-	figura.baixa();
+	int t = m_figuraActual.getTipus();
 
-	bool movimentPosible = ComprobarEspai(figura);
+
+	m_figuraActual.baixa();
+
+	bool movimentPosible = ComprobarEspai();
 	if (!movimentPosible)
 	{
-		figura.puja();
+		m_figuraActual.puja();
 		return false;
 	}
 	else
@@ -132,20 +140,22 @@ bool Tauler::ComprobarBaixada(Figura &figura)
 	}
 }
 
-bool Tauler::ComprobarMoviment(Figura& figura, int dirX)
+bool Tauler::ComprobarMoviment(int dirX)
 {
-	figura.mou(dirX);
+	m_figuraActual.mou(dirX);
 
-	bool movimentPosible = ComprobarEspai(figura);
+	bool movimentPosible = ComprobarEspai();
 
-	if (movimentPosible)
+
+
+	if (!movimentPosible)
 	{
-		figura.mou(-dirX);
+		m_figuraActual.mou(-dirX);
 		return false;
 	}
 	else
 	{
-		return true;
+ 		return true;
 	}
 }
 

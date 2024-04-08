@@ -19,17 +19,20 @@ public:
 
 	//Funcions
 	int EliminarFila();
-	bool ComprobarGir(Figura &figura, DireccioGir direccio); //const
-	bool ComprobarBaixada(Figura &figura); //const
-	bool ComprobarMoviment(Figura &figura, int dirX); //const
-	void AfegirFigura(Figura figura);
+	bool ComprobarGir(DireccioGir direccio); //const
+	bool ComprobarBaixada(); //const
+	bool ComprobarMoviment(int dirX); //const
+	void AfegirFigura();
 	
 	void setFigura(Figura figura) {m_figuraActual = figura;}
 	Figura getFigura() { return m_figuraActual; }
+	void setColocada(bool colocada) { m_fitxaColocada = colocada; }
+	bool getColocada() { return m_fitxaColocada; }
 
 
 private:
-	bool ComprobarEspai(Figura figura); //const
+	bool m_fitxaColocada;
+	bool ComprobarEspai(); //const
 	ColorFigura m_tauler[MAX_FILA][MAX_COL];
 	Figura m_figuraActual;
 };
