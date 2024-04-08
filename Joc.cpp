@@ -1,55 +1,124 @@
 #include "Joc.h"
 
-
-TipusFigura IntATipus(int figura)
+ifstream& operator>>(ifstream& input, Tauler& tauler)
 {
-	switch (figura)
+	//leer archivo
+
+	//crear figura
+	int tipus;
+	int posX = 0;
+	int posY = 0;
+	int rotacio = 0;
+	input >> tipus >> posY >> posX >> rotacio;
+	TipusFigura fTipus;
+	switch (tipus)
 	{
 	case 0:
-		return NO_FIGURA;
+		fTipus = NO_FIGURA;
+		break;
 	case 1:
-		return FIGURA_O;
+		fTipus = FIGURA_O;
+		break;
 	case 2:
-		return FIGURA_I;
+		fTipus = FIGURA_I;
+		break;
 	case 3:
-		return FIGURA_T;
+		fTipus = FIGURA_T;
+		break;
 	case 4:
-		return FIGURA_L;
+		fTipus = FIGURA_L;
+		break;
 	case 5:
-		return FIGURA_J;
+		fTipus = FIGURA_J;
+		break;
 	case 6:
-		return FIGURA_Z;
+		fTipus = FIGURA_Z;
+		break;
 	case 7:
-		return FIGURA_S;
+		fTipus = FIGURA_S;
+		break;
 	default:
-		return NO_FIGURA;
+		fTipus = NO_FIGURA;
+		break;
 	}
+	TipusFigura formaFigura = fTipus;
+	Figura novaFigura(formaFigura, posX, posY, rotacio);
+	
+	//crear taula
+	ColorFigura taulerTemporal[MAX_FILA][MAX_COL];
+	int color;
+	for (int f = 0; f < MAX_FILA; f++)
+	{
+		for (int c = 0; c < MAX_COL; c++)
+		{
+			input >> color;
+            ColorFigura fColor;
+        	switch (color)
+        	{
+        	case 0:
+        		fColor = COLOR_NEGRE;
+        		break;
+        	case 1:
+        		fColor = COLOR_GROC;
+        	    break;
+        	case 2:
+        		fColor = COLOR_BLAUCEL;
+        	    break;
+        	case 3:
+        		fColor = COLOR_MAGENTA;
+        	    break;
+        	case 4:
+        		fColor = COLOR_TARONJA;
+        	    break;
+        	case 5:
+        		fColor = COLOR_BLAUFOSC;
+        	    break;
+        	case 6:
+        		fColor = COLOR_VERMELL;
+        	    break;
+        	case 7:
+        		fColor = COLOR_VERD;
+        		break;
+        	default:
+        		fColor = COLOR_NEGRE;
+        		break;
+        	}
+            
+			taulerTemporal[f][c] = fColor;
+		}
+	}
+
+	Tauler nouTauler(taulerTemporal);	
+	tauler = nouTauler;
+	tauler.setFigura(novaFigura);
+
+
+	return input;
 }
 
-ColorFigura IntAColor(int figura)
+
+ofstream& operator<<(ofstream& output, Tauler taula)
 {
-	switch (figura)
+	//escribir en archivo
+	Tauler taulerTemporal = taula;
+	taulerTemporal.AfegirFigura(taula.getFigura());
+
+	ColorFigura nouTauler[MAX_FILA][MAX_COL];
+	taulerTemporal.getTaulerActual(nouTauler);
+
+	for (int f = 0; f < MAX_FILA; f++)
 	{
-	case 0:
-		return COLOR_NEGRE;
-	case 1:
-		return COLOR_GROC;
-	case 2:
-		return COLOR_BLAUCEL;
-	case 3:
-		return COLOR_MAGENTA;
-	case 4:
-		return COLOR_TARONJA;
-	case 5:
-		return COLOR_BLAUFOSC;
-	case 6:
-		return COLOR_VERMELL;
-	case 7:
-		return COLOR_VERD;
-	default:
-		return COLOR_NEGRE;
+		for (int c = 0; c < MAX_COL; c++)
+		{
+			output << nouTauler[f][c] << " ";
+		}
+		output << endl;
 	}
+
+	return output;
 }
+
+
 
 void Joc::inicialitza(const string& nomFitxer)
 {
@@ -73,7 +142,8 @@ bool Joc::mouFigura(int dirX)
 }
 int Joc::baixaFigura()
 {
-    if (m_tauler.ComprobarBaixada(m_figura))
+	Figura novaFigura;
+    if (m_tauler.ComprobarBaixada(novaFigura))
     {
         return 0;
     }
@@ -88,6 +158,7 @@ void Joc::escriuTauler(const string& nomFitxer)
 {
     ofstream outFitxer;
     outFitxer.open(nomFitxer);
+	m_tauler.setFigura(m_figura);
     if (outFitxer.is_open())
     {
         outFitxer << m_tauler;
@@ -107,17 +178,4 @@ void mostrarTauler(Tauler tauler)
         }
         cout << endl;
     }
-}
-
-int main()
-{
-    string nomFitxer = "./tests/test_baixa_figura.txt";
-    Joc joc;
-    joc.inicialitza(nomFitxer);
-    //mostrarTauler(joc.getTauler());
-
-
-
-    joc.escriuTauler("./tests/aaa.txt");
-    return 0;
 }

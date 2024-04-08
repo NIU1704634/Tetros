@@ -19,9 +19,9 @@ public:
 
 	//Funcions
 	int EliminarFila();
-	bool ComprobarGir(Figura figura, DireccioGir direccio) const; //const
-	bool ComprobarBaixada(Figura figura) const; //const
-	bool ComprobarMoviment(Figura figura, int dirX) const; //const
+	bool ComprobarGir(Figura &figura, DireccioGir direccio); //const
+	bool ComprobarBaixada(Figura &figura); //const
+	bool ComprobarMoviment(Figura &figura, int dirX); //const
 	void AfegirFigura(Figura figura);
 	
 	void setFigura(Figura figura) {m_figuraActual = figura;}
@@ -29,7 +29,7 @@ public:
 
 
 private:
-	bool ComprobarEspai(Figura figura) const; //const
+	bool ComprobarEspai(Figura figura); //const
 	ColorFigura m_tauler[MAX_FILA][MAX_COL];
 	Figura m_figuraActual;
 };

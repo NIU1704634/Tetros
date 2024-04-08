@@ -1,5 +1,6 @@
 const int MAXTAMANY = 4;
 
+
 typedef enum
 {
 	NO_FIGURA = 0,

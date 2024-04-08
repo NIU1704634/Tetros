@@ -39,6 +39,10 @@ void Figura::gir(DireccioGir dir)
 			}
 		}
 		m_rot++;
+		if (m_rot > 3)
+		{
+			m_rot = 0;
+		}
 	}
 	else 
 	{
@@ -64,7 +68,12 @@ void Figura::gir(DireccioGir dir)
 			}
 		}
 		m_rot--;
+		if (m_rot < 0)
+		{
+			m_rot = 3;
+		}
 	}
+
 }
 
 //Retorna el color assignat al tipus
@@ -195,7 +204,7 @@ Figura::Figura(TipusFigura tipus, int posX, int posY, int rot) {
 	m_color = assignaColor(tipus);
 	m_posX = posX;
 	m_posY = posY;
-	m_rot = rot;
+	m_rot = 0;
 	m_tamany = ajustaForma(tipus, m_forma);
 	//Rota la peça per posar'la com ha d'anar
 	switch (rot)
