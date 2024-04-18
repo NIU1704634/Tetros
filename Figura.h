@@ -50,6 +50,7 @@ public:
 	int getRot() { return m_rot; };
 	void getForma(ColorFigura forma[MAXTAMANY][MAXTAMANY]);
 
+
 	//Setters (El tipus, el color i el tamany van implicits a la figura i, per tant, no son editables)
 	void setPosX(int posX) { m_posX = posX; };
 	void setPosY(int posY) { m_posY = posY; };

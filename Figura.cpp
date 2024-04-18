@@ -225,7 +225,8 @@ Figura::Figura(TipusFigura tipus, int posX, int posY, int rot) {
 }
 
 //Getter de la array forma. Transforma la array passada en el paràmetre en la matriu forma de la figura.
-void Figura::getForma(ColorFigura forma[MAXTAMANY][MAXTAMANY]) {
+void Figura::getForma(ColorFigura forma[MAXTAMANY][MAXTAMANY])
+{
 	for (int i = 0; i < MAXTAMANY; i++)
 	{
 		for (int j = 0; j < MAXTAMANY; j++)

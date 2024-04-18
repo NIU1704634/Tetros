@@ -159,7 +159,7 @@ bool Tauler::ComprobarMoviment(int dirX)
 	}
 }
 
-void Tauler::getTaulerActual(ColorFigura tauler[MAX_FILA][MAX_COL])
+void Tauler::getTaulerActual(ColorFigura tauler[MAX_FILA][MAX_COL]) const
 {
 	//Dibuixa tauler
 	for (int i = 0; i < MAX_FILA; i++)

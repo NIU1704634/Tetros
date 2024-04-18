@@ -15,24 +15,24 @@ public:
 	Tauler(ColorFigura tauler[MAX_FILA][MAX_COL]);
 
 	//Getters
-	void getTaulerActual(ColorFigura tauler[MAX_FILA][MAX_COL]);
+	void getTaulerActual(ColorFigura tauler[MAX_FILA][MAX_COL]) const;
 
 	//Funcions
 	int EliminarFila();
-	bool ComprobarGir(DireccioGir direccio); //const
-	bool ComprobarBaixada(); //const
-	bool ComprobarMoviment(int dirX); //const
-	void AfegirFigura();
+	bool ComprobarGir(const DireccioGir direccio);
+	bool ComprobarBaixada();
+	bool ComprobarMoviment(int dirX);
+	void AfegirFigura(); 
 	
-	void setFigura(Figura figura) {m_figuraActual = figura;}
-	Figura getFigura() { return m_figuraActual; }
+	void setFigura(const Figura figura) {m_figuraActual = figura;}
+	Figura getFigura() { return m_figuraActual; } const
 	void setColocada(bool colocada) { m_fitxaColocada = colocada; }
 	bool getColocada() { return m_fitxaColocada; }
 
 
 private:
 	bool m_fitxaColocada;
-	bool ComprobarEspai(); //const
+	bool ComprobarEspai();
 	ColorFigura m_tauler[MAX_FILA][MAX_COL];
 	Figura m_figuraActual;
 };

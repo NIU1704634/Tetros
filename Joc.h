@@ -17,12 +17,12 @@ public:
 	Figura getFigura() const { return m_figura; };
 	Tauler getTauler() const { return m_tauler; };
 	//Setters
-	void setFigura(Figura figura) { m_figura = figura; };
-	void setTauler(Tauler tauler) { m_tauler = tauler; };
+	void setFigura(const Figura figura) { m_figura = figura; };
+	void setTauler(const Tauler tauler) { m_tauler = tauler; };
 
 	//Funcions
 	void inicialitza(const string& nomFitxer);
-	bool giraFigura(DireccioGir direccio);
+	bool giraFigura(const DireccioGir direccio);
 	bool mouFigura(int dirX);
 	int baixaFigura();
 	void escriuTauler(const string& nomFitxer);
