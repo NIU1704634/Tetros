@@ -67,3 +67,5 @@ private:
 	TipusFigura m_tipus;
 	ColorFigura m_color, m_forma[MAXTAMANY][MAXTAMANY];
 };
+
+

@@ -1,17 +1,7 @@
 #include "Joc.h"
 
-ifstream& operator>>(ifstream& input, Tauler& tauler)
+TipusFigura IntToFigura(int tipus)
 {
-	//leer archivo
-
-	//crear figura
-	int tipus;
-	int posX = 0;
-	int posY = 0;
-	int rotacio = 0;
-	input >> tipus >> posY >> posX >> rotacio;
-	posY--;
-	posX--;
 	TipusFigura fTipus;
 	switch (tipus)
 	{
@@ -43,6 +33,59 @@ ifstream& operator>>(ifstream& input, Tauler& tauler)
 		fTipus = NO_FIGURA;
 		break;
 	}
+	return fTipus;
+}
+
+ColorFigura IntToColor(int color)
+{
+	ColorFigura fColor;
+
+	switch (color)
+	{
+	case 0:
+		fColor = COLOR_NEGRE;
+		break;
+	case 1:
+		fColor = COLOR_GROC;
+		break;
+	case 2:
+		fColor = COLOR_BLAUCEL;
+		break;
+	case 3:
+		fColor = COLOR_MAGENTA;
+		break;
+	case 4:
+		fColor = COLOR_TARONJA;
+		break;
+	case 5:
+		fColor = COLOR_BLAUFOSC;
+		break;
+	case 6:
+		fColor = COLOR_VERMELL;
+		break;
+	case 7:
+		fColor = COLOR_VERD;
+		break;
+	default:
+		fColor = COLOR_NEGRE;
+		break;
+	}
+
+	return fColor;
+}
+
+ifstream& operator>>(ifstream& input, Tauler& tauler)
+{
+	//crear figura
+	int tipus, posX, posY, rotacio;
+	input >> tipus >> posY >> posX >> rotacio;
+	posY--;
+	posX--;
+
+	TipusFigura fTipus;
+
+	fTipus = IntToFigura(tipus);
+
 	TipusFigura formaFigura = fTipus;
 	Figura novaFigura(formaFigura, posX, posY, rotacio);
 	
@@ -55,37 +98,8 @@ ifstream& operator>>(ifstream& input, Tauler& tauler)
 		{
 			input >> color;
             ColorFigura fColor;
-        	switch (color)
-        	{
-        	case 0:
-        		fColor = COLOR_NEGRE;
-        		break;
-        	case 1:
-        		fColor = COLOR_GROC;
-        	    break;
-        	case 2:
-        		fColor = COLOR_BLAUCEL;
-        	    break;
-        	case 3:
-        		fColor = COLOR_MAGENTA;
-        	    break;
-        	case 4:
-        		fColor = COLOR_TARONJA;
-        	    break;
-        	case 5:
-        		fColor = COLOR_BLAUFOSC;
-        	    break;
-        	case 6:
-        		fColor = COLOR_VERMELL;
-        	    break;
-        	case 7:
-        		fColor = COLOR_VERD;
-        		break;
-        	default:
-        		fColor = COLOR_NEGRE;
-        		break;
-        	}
-            
+
+			fColor = IntToColor(color);
 			taulerTemporal[f][c] = fColor;
 		}
 	}
@@ -94,7 +108,6 @@ ifstream& operator>>(ifstream& input, Tauler& tauler)
 	tauler = nouTauler;
 	tauler.setColocada(false);
 	tauler.setFigura(novaFigura);
-
 
 	return input;
 }
@@ -144,8 +157,6 @@ bool Joc::giraFigura(DireccioGir direccio)
 }
 bool Joc::mouFigura(int dirX)
 {
-
-
     return m_tauler.ComprobarMoviment(dirX);
 }
 int Joc::baixaFigura()
@@ -174,17 +185,4 @@ void Joc::escriuTauler(const string& nomFitxer)
     }
 }
 
-void mostrarTauler(Tauler tauler)
-{
-    ColorFigura nouTauler[MAX_FILA][MAX_COL];
-    tauler.getTaulerActual(nouTauler);
 
-    for (int f = 0; f < MAX_FILA; f++)
-    {
-        for (int c = 0; c < MAX_COL; c++)
-        {
-            cout << nouTauler[f][c];
-        }
-        cout << endl;
-    }
-}

@@ -6,7 +6,6 @@ using namespace std;
 int Tauler::EliminarFila()
 {
 	int filesEliminades = 0;
-	int t = m_figuraActual.getTipus();
 
 	for (int f = MAX_FILA - 1; f > 0; f--)
 	{
@@ -55,8 +54,6 @@ bool Tauler::ComprobarEspai()
 			int taulerC = figuraC + fy;
 			int taulerF = figuraF + fx;
 
-
-
 			if (forma[fx][fy] != COLOR_NEGRE)
 			{
 				if (taulerC < 0 || taulerC >= MAX_COL || taulerF < 0 || taulerF >= MAX_FILA)
@@ -79,8 +76,11 @@ bool Tauler::ComprobarGir(DireccioGir direccio)
 	m_figuraActual.gir(direccio);
 
 	bool movimentPosible = ComprobarEspai();
-
-	if (!movimentPosible)
+	if (movimentPosible)
+	{
+		return true;
+	}
+	else
 	{
 		if (direccio == GIR_HORARI)
 		{
@@ -91,10 +91,6 @@ bool Tauler::ComprobarGir(DireccioGir direccio)
 			m_figuraActual.gir(GIR_HORARI);
 		}
 		return false;
-	}
-	else
-	{
-		return true;
 	}
 
 }
@@ -123,20 +119,17 @@ void Tauler::AfegirFigura()
 
 bool Tauler::ComprobarBaixada()
 {
-	int t = m_figuraActual.getTipus();
-
-
 	m_figuraActual.baixa();
 
 	bool movimentPosible = ComprobarEspai();
-	if (!movimentPosible)
+	if (movimentPosible)
 	{
-		m_figuraActual.puja();
-		return false;
+		return true;
 	}
 	else
 	{
-		return true;
+		m_figuraActual.puja();
+		return false;
 	}
 }
 
@@ -145,17 +138,14 @@ bool Tauler::ComprobarMoviment(int dirX)
 	m_figuraActual.mou(dirX);
 
 	bool movimentPosible = ComprobarEspai();
-
-
-
-	if (!movimentPosible)
+	if (movimentPosible)
 	{
-		m_figuraActual.mou(-dirX);
-		return false;
+		return true;
 	}
 	else
 	{
- 		return true;
+		m_figuraActual.mou(-dirX);
+		return false;
 	}
 }
 

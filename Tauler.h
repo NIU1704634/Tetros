@@ -25,10 +25,9 @@ public:
 	void AfegirFigura(); 
 	
 	void setFigura(const Figura figura) {m_figuraActual = figura;}
-	Figura getFigura() { return m_figuraActual; } const
+	Figura getFigura() const { return m_figuraActual; }
 	void setColocada(bool colocada) { m_fitxaColocada = colocada; }
-	bool getColocada() { return m_fitxaColocada; }
-
+	bool getColocada() const { return m_fitxaColocada; }
 
 private:
 	bool m_fitxaColocada;

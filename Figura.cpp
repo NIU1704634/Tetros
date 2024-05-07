@@ -235,3 +235,5 @@ void Figura::getForma(ColorFigura forma[MAXTAMANY][MAXTAMANY])
 		}
 	}
 }
+
+
