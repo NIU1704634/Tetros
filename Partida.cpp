@@ -59,8 +59,6 @@ bool Partida::actualitza(double deltaTime, int& punts)
     }
     else if (m_partidaAcabada) 
     {
-        string over = "GAME OVER";
-        GraphicManager::getInstance()->drawFont(FONT_WHITE_30, POS_X_TAULER + 35, POS_Y_TAULER + 273, 1.5, over);
         punts = m_puntuacio;
     }
 
@@ -134,8 +132,6 @@ void Partida::normal(double deltaTime)
         {
             m_jocActiu = false;
             m_partidaAcabada = true;
-
-
         }
         else
         {

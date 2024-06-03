@@ -76,7 +76,6 @@ void Tetris::guardaPuntuacions()
 
 void Tetris::registraPuntuacio(int punts, bool escriurePuntuacio, const string& nomInicial)
 {
-
 	string nom;
 	if (escriurePuntuacio) 
 	{

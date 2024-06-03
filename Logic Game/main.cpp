@@ -106,12 +106,9 @@ int main(int argc, const char* argv[])
 
                 if (jocAcabat)
                 {
+                    SDL_HideWindow(g_Video.window);
                     if (opcio == 1) 
                     {
-
-
-
-
                         tetris.registraPuntuacio(punts, true, "");
                         tetris.guardaPuntuacions();
                     }
@@ -119,6 +116,7 @@ int main(int argc, const char* argv[])
             } while (!Keyboard_GetKeyTrg(KEYBOARD_ESCAPE) && !jocAcabat);
 
             // Sortim del bucle si pressionem ESC
+            SDL_HideWindow(g_Video.window);
         }
     }
 
