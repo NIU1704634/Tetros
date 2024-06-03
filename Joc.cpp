@@ -90,11 +90,11 @@ ifstream& operator>>(ifstream& input, Tauler& tauler)
 	Figura novaFigura(formaFigura, posX, posY, rotacio);
 	
 	//crear taula
-	ColorFigura taulerTemporal[MAX_FILA][MAX_COL];
+	ColorFigura taulerTemporal[N_FILES_TAULER][N_COL_TAULER];
 	int color;
-	for (int f = 0; f < MAX_FILA; f++)
+	for (int f = 0; f < N_FILES_TAULER; f++)
 	{
-		for (int c = 0; c < MAX_COL; c++)
+		for (int c = 0; c < N_COL_TAULER; c++)
 		{
 			input >> color;
             ColorFigura fColor;
@@ -122,12 +122,12 @@ ofstream& operator<<(ofstream& output, Tauler taula)
 		taulerTemporal.AfegirFigura();
 	}
 
-	ColorFigura nouTauler[MAX_FILA][MAX_COL];
+	ColorFigura nouTauler[N_FILES_TAULER][N_COL_TAULER];
 	taulerTemporal.getTaulerActual(nouTauler);
 
-	for (int f = 0; f < MAX_FILA; f++)
+	for (int f = 0; f < N_FILES_TAULER; f++)
 	{
-		for (int c = 0; c < MAX_COL; c++)
+		for (int c = 0; c < N_COL_TAULER; c++)
 		{
 			output << nouTauler[f][c] << " ";
 		}
@@ -159,22 +159,24 @@ bool Joc::mouFigura(int dirX)
 {
     return m_tauler.ComprobarMoviment(dirX);
 }
-int Joc::baixaFigura()
+bool Joc::baixaFigura(int& files)
 {
     if (m_tauler.ComprobarBaixada())
     {
-		return 0;
+		return false;
     }
     else 
     {
+		
 		int t = m_tauler.getFigura().getTipus();
 
         m_tauler.AfegirFigura();
-        int files = m_tauler.EliminarFila();
-		
-        return files;
+        files += m_tauler.EliminarFila();
+        return true;
     }
 }
+
+
 void Joc::escriuTauler(const string& nomFitxer)
 {
     ofstream outFitxer;
@@ -183,6 +185,41 @@ void Joc::escriuTauler(const string& nomFitxer)
     {
         outFitxer << m_tauler;
     }
+}
+
+void Joc::DibuixarJoc()
+{
+	m_tauler.DibuixarTauler();
+	if (!m_tauler.getColocada())
+	{
+		m_tauler.getFigura().DibuixarFigura();
+	}
+}
+ 
+void Joc::generarNovaFigura(Figura f)
+{
+	m_tauler.setColocada(false);
+	m_tauler.setFigura(f);
+}
+
+void Joc::GuardarFigura()
+{
+	Figura aux = m_tauler.getFigura();
+	m_tauler.setFigura(m_figuraGuardada);
+	aux.setPosX(5);
+	aux.setPosY(0);
+	m_figuraGuardada = aux;
+}
+
+void Joc::DibuixarFiguraGuardada()
+{
+	m_figuraGuardada.setPosX(-5);
+	m_figuraGuardada.setPosY(0);
+
+	m_figuraGuardada.DibuixarFigura();
+
+	m_figuraGuardada.setPosX(5);
+	m_figuraGuardada.setPosY(0);
 }
 
 

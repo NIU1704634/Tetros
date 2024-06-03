@@ -237,3 +237,49 @@ void Figura::getForma(ColorFigura forma[MAXTAMANY][MAXTAMANY])
 }
 
 
+void Figura::DibuixarFigura()
+{
+	for (int f = 0; f < m_tamany; f++)
+	{
+		for(int c = 0; c < m_tamany; c++)
+		{
+			if (m_forma[f][c] != COLOR_NEGRE)
+			{
+				IMAGE_NAME img;
+
+				switch (m_forma[f][c])
+				{
+				case(COLOR_BLAUCEL):
+					img = GRAFIC_QUADRAT_BLAUCEL;
+					break;
+				case(COLOR_BLAUFOSC):
+					img = GRAFIC_QUADRAT_BLAUFOSC;
+					break;
+				case(COLOR_GROC):
+					img = GRAFIC_QUADRAT_GROC;
+					break;
+				case(COLOR_MAGENTA):
+					img = GRAFIC_QUADRAT_MAGENTA;
+					break;
+				case(COLOR_TARONJA):
+					img = GRAFIC_QUADRAT_TARONJA;
+					break;
+				case(COLOR_VERD):
+					img = GRAFIC_QUADRAT_VERD;
+					break;
+				case(COLOR_VERMELL):
+					img = GRAFIC_QUADRAT_VERMELL;
+					break;
+				default:
+					img = GRAFIC_QUADRAT_BLAUCEL;
+					break;
+				}				
+				GraphicManager::getInstance()->drawSprite(img,
+					POS_X_TAULER + (m_posX + c + 1) * MIDA_QUADRAT,
+					POS_Y_TAULER + (m_posY + f) * MIDA_QUADRAT, false);
+			}
+		}
+	}
+}
+
+

@@ -7,11 +7,11 @@ int Tauler::EliminarFila()
 {
 	int filesEliminades = 0;
 
-	for (int f = MAX_FILA - 1; f > 0; f--)
+	for (int f = N_FILES_TAULER - 1; f > 0; f--)
 	{
 		bool filaPlena = true;
 		int c = 0;
-		while (filaPlena && c < MAX_COL)
+		while (filaPlena && c < N_COL_TAULER)
 		{
 			if (m_tauler[f][c] == COLOR_NEGRE)
 			{
@@ -22,7 +22,7 @@ int Tauler::EliminarFila()
 		if (filaPlena)
 		{
 
-			for (int c2 = 0; c2 < MAX_COL; c2++)
+			for (int c2 = 0; c2 < N_COL_TAULER; c2++)
 			{
 				for (int f2 = f; f2 > 0; f2--)
 				{
@@ -56,7 +56,7 @@ bool Tauler::ComprobarEspai()
 
 			if (forma[fx][fy] != COLOR_NEGRE)
 			{
-				if (taulerC < 0 || taulerC >= MAX_COL || taulerF < 0 || taulerF >= MAX_FILA)
+				if (taulerC < 0 || taulerC >= N_COL_TAULER || taulerF < 0 || taulerF >= N_FILES_TAULER)
 				{
 					return false;
 				}
@@ -149,12 +149,12 @@ bool Tauler::ComprobarMoviment(int dirX)
 	}
 }
 
-void Tauler::getTaulerActual(ColorFigura tauler[MAX_FILA][MAX_COL]) const
+void Tauler::getTaulerActual(ColorFigura tauler[N_FILES_TAULER][N_COL_TAULER]) const
 {
 	//Dibuixa tauler
-	for (int i = 0; i < MAX_FILA; i++)
+	for (int i = 0; i < N_FILES_TAULER; i++)
 	{
-		for (int j = 0; j < MAX_COL; j++)
+		for (int j = 0; j < N_COL_TAULER; j++)
 		{
 			tauler[i][j] = m_tauler[i][j];
 		}
@@ -163,22 +163,69 @@ void Tauler::getTaulerActual(ColorFigura tauler[MAX_FILA][MAX_COL]) const
 
 Tauler::Tauler()
 {
-	for (int f = 0; f < MAX_FILA; f++)
+	for (int f = 0; f < N_FILES_TAULER; f++)
 	{
-		for (int c = 0; c < MAX_COL; c++)
+		for (int c = 0; c < N_COL_TAULER; c++)
 		{
 			m_tauler[f][c] = COLOR_NEGRE;
 		}
 	}
 }
 
-Tauler::Tauler(ColorFigura tauler[MAX_FILA][MAX_COL])
+Tauler::Tauler(ColorFigura tauler[N_FILES_TAULER][N_COL_TAULER])
 {
-	for (int f = 0; f < MAX_FILA; f++)
+	for (int f = 0; f < N_FILES_TAULER; f++)
 	{
-		for (int c = 0; c < MAX_COL; c++)
+		for (int c = 0; c < N_COL_TAULER; c++)
 		{
 			m_tauler[f][c] = tauler[f][c];
+		}
+	}
+}
+
+
+void Tauler::DibuixarTauler()
+{
+	for (int f = 0; f < N_FILES_TAULER; f++)
+	{
+		for (int c = 0; c < N_COL_TAULER; c++)
+		{
+			if (m_tauler[f][c] != COLOR_NEGRE)
+			{
+				IMAGE_NAME img;
+
+				switch (m_tauler[f][c])
+				{
+				case(COLOR_BLAUCEL):
+					img = GRAFIC_QUADRAT_BLAUCEL;
+					break;
+				case(COLOR_BLAUFOSC):
+					img = GRAFIC_QUADRAT_BLAUFOSC;
+					break;
+				case(COLOR_GROC):
+					img = GRAFIC_QUADRAT_GROC;
+					break;
+				case(COLOR_MAGENTA):
+					img = GRAFIC_QUADRAT_MAGENTA;
+					break;
+				case(COLOR_TARONJA):
+					img = GRAFIC_QUADRAT_TARONJA;
+					break;
+				case(COLOR_VERD):
+					img = GRAFIC_QUADRAT_VERD;
+					break;
+				case(COLOR_VERMELL):
+					img = GRAFIC_QUADRAT_VERMELL;
+					break;
+				default:
+					img = GRAFIC_QUADRAT_BLAUCEL;
+					break;
+				}
+
+				GraphicManager::getInstance()->drawSprite(img,
+					POS_X_TAULER + ((c + 1) * MIDA_QUADRAT),
+					POS_Y_TAULER + ((f) * MIDA_QUADRAT), false);
+			}
 		}
 	}
 }

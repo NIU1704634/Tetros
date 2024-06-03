@@ -3,19 +3,15 @@
 
 #include "Figura.h"
 
-
-const int MAX_FILA = 8;
-const int MAX_COL = 8;
-
 class Tauler
 {
 public:
 	//Constructors
 	Tauler();
-	Tauler(ColorFigura tauler[MAX_FILA][MAX_COL]);
+	Tauler(ColorFigura tauler[N_FILES_TAULER][N_COL_TAULER]);
 
 	//Getters
-	void getTaulerActual(ColorFigura tauler[MAX_FILA][MAX_COL]) const;
+	void getTaulerActual(ColorFigura tauler[N_FILES_TAULER][N_COL_TAULER]) const;
 
 	//Funcions
 	int EliminarFila();
@@ -28,11 +24,12 @@ public:
 	Figura getFigura() const { return m_figuraActual; }
 	void setColocada(bool colocada) { m_fitxaColocada = colocada; }
 	bool getColocada() const { return m_fitxaColocada; }
+	void DibuixarTauler();
 
 private:
 	bool m_fitxaColocada;
 	bool ComprobarEspai();
-	ColorFigura m_tauler[MAX_FILA][MAX_COL];
+	ColorFigura m_tauler[N_FILES_TAULER][N_COL_TAULER];
 	Figura m_figuraActual;
 };
 
